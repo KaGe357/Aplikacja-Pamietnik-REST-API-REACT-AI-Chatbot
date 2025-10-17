@@ -1,0 +1,236 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  background: #eee;
+  padding: 0 16px;
+  background-image: url("https://transparenttextures.com/patterns/black-linen.png");
+}
+
+header {
+  background-color: #f5ba13;
+  margin: auto -16px;
+  padding: 16px 32px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+header h1 {
+  color: #fff;
+  font-family: "McLaren", cursive;
+  font-weight: 200;
+}
+
+footer {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
+
+footer p {
+  color: #ccc;
+}
+
+form.create-note {
+  position: relative;
+  width: 480px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+form.create-note input,
+form.create-note textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+form.create-note button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #f5ba13;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
+  z-index: 1;
+}
+
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+  text-align: center;
+}
+
+
+.auth-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  font-size: 1.2em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f5ba13;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.auth-message {
+  margin-top: 10px;
+  color: red;
+}
+
+.auth-toggle {
+  margin-top: 15px;
+  font-size: 1em;
+}
+
+.auth-toggle button {
+  background: none;
+  border: none;
+  color: #f5ba13;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1em;
+}
+.logout-button {
+  margin: 20px 0;
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #f5ba13;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 1em;
+}
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-box {
+  width: 320px;
+  text-align: center;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #f5ba13;
+  border: none;
+  color: white;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.auth-message {
+  margin-top: 10px;
+  color: red;
+}
+
+.auth-success {
+  margin-top: 10px;
+  color: green;
+}
+
+.auth-toggle {
+  margin-top: 15px;
+}
+
+.auth-toggle button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+  font-size: 1em;
+}
+
+
+.note {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: 240px;
+  margin: 16px;
+  float: left;
+  word-wrap: break-word;
+}
+.note h1 {
+  font-size: 1.1em;
+  margin-bottom: 6px;
+}
+.note p {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.note button {
+  display: block;
+  float: right;
+  margin-right: 10px;
+  color: #f5ba13;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+  background-color: rgb(245, 240, 240);
+}
+.notes-section {
+  position: relative; /* potrzebne dla z-index Fab */
+}
+
+.fab-wrapper {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+
+
