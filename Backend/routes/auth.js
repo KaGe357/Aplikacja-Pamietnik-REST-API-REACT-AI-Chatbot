@@ -1,66 +1,116 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const pool = require("../db");
+import logger from "../config/logger.js";
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import {
+  validateRegistration,
+  validateLogin,
+} from "../middleware/validation.js";
+import db from "../config/database.js";
 
-// 🔸 Register
-router.post("/register", async (req, res) => {
+const router = express.Router();
+
+//  Register
+router.post("/register", validateRegistration, async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const userExists = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+    const userExists = await db("users")
+      .select("*")
+      .where("username", username);
 
-    if (userExists.rows.length > 0) {
-      return res.status(400).json({ msg: "Użytkownik już istnieje" });
+    if (userExists.length > 0) {
+      return res.status(400).json({
+        msg: "Użytkownik już istnieje",
+        timestamp: new Date().toISOString(),
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await pool.query(
-      "INSERT INTO users (username, password) VALUES ($1, $2)",
-      [username, hashedPassword]
-    );
+    const result = await db("users")
+      .insert({
+        username,
+        password: hashedPassword,
+      })
+      .returning(["id", "username"]);
 
-    res.json({ msg: "✅ Rejestracja udana" });
+    const newUser = result[0];
+
+    logger.info("User registered", {
+      userId: newUser.id,
+      username: newUser.username,
+      ip: req.ip,
+    });
+    res.status(201).json({ msg: "✅ Rejestracja udana" });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("❌ Błąd serwera");
+    logger.error("Registration error", {
+      error: err.message,
+      stack: err.stack,
+      username,
+      ip: req.ip,
+    });
+    res.status(500).json({
+      msg: "Błąd serwera",
+      error: err.message,
+      timestamp: new Date().toISOString(),
+    });
   }
 });
 
-// 🔸 Login
-router.post("/login", async (req, res) => {
+//  Login
+router.post("/login", validateLogin, async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const user = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+    const users = await db("users").select("*").where("username", username);
 
-    if (user.rows.length === 0) {
-      return res.status(400).json({ msg: "Nieprawidłowe dane" });
+    if (users.length === 0) {
+      logger.warn("Login failed: user not found", {
+        username,
+        ip: req.ip,
+      });
+      return res.status(401).json({
+        msg: "Nieprawidłowe dane",
+        timestamp: new Date().toISOString(),
+      });
     }
+    const user = users[0];
 
-    const isMatch = await bcrypt.compare(password, user.rows[0].password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Nieprawidłowe dane" });
+      logger.warn("Login failed: invalid password", {
+        userId: user.id,
+        username: user.username,
+        ip: req.ip,
+      });
+      return res.status(401).json({
+        msg: "Nieprawidłowe dane",
+        timestamp: new Date().toISOString(),
+      });
     }
 
-    const token = jwt.sign({ id: user.rows[0].id }, "sekretnyklucz", {
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 
-    res.json({ token });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("❌ Błąd serwera");
+    res.json({
+      token,
+      user: { id: user.id, username: user.username },
+    });
+  } catch (error) {
+    logger.error("Login error", {
+      error: error.message,
+      stack: error.stack,
+      username,
+    });
+    res.status(500).json({
+      msg: "Błąd serwera",
+      error: error.message,
+      timestamp: new Date().toISOString(),
+    });
   }
 });
 
-module.exports = router;
+export default router;

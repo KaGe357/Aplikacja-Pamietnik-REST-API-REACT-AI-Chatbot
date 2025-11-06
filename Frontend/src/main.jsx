@@ -4,19 +4,18 @@ import App from "./components/App";
 import Auth from "./components/Auth";
 import "./styles.css";
 import { createRoot } from "react-dom/client";
-
+import { authStorage } from "./utils/authStorage";
 
 function Main() {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [token, setToken] = useState(authStorage.getToken() || null);
 
   const handleLoginSuccess = (jwt) => {
-    localStorage.setItem("token", jwt); 
+    authStorage.setToken(jwt);
     setToken(jwt);
   };
 
-
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    authStorage.removeToken();
     setToken(null);
   };
 
@@ -27,8 +26,6 @@ function Main() {
   );
 }
 
-
 const container = document.getElementById("root");
-const root = createRoot(container); 
+const root = createRoot(container);
 root.render(<Main />);
-

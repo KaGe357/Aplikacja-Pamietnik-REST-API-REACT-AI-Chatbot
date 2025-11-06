@@ -1,5 +1,6 @@
 import React from "react";
 import AuthForm from "./AuthForm";
+import { API_ENDPOINTS } from "../config/api";
 
 function Auth({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = React.useState(true);
@@ -10,9 +11,14 @@ function Auth({ onLoginSuccess }) {
   const [validPassword, setValidPassword] = React.useState(false);
 
   const validatePassword = () => {
+    const minPasswordLength = 8;
     if (!isLogin) {
-      if (password.length < 6) return "❌ Hasło musi mieć minimum 6 znaków";
+      if (password.length < minPasswordLength)
+        return `❌ Hasło musi mieć minimum ${minPasswordLength} znaków`;
       if (password !== confirmPassword) return "❌ Hasła nie są takie same";
+      if (!/[0-9]/.test(password)) return "❌ Hasło musi zawierać cyfrę";
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password))
+        return "❌ Hasło musi zawierać znak specjalny";
     }
     return "";
   };
@@ -25,12 +31,13 @@ function Auth({ onLoginSuccess }) {
       setValidPassword(false);
       return;
     }
+
     setMessage("");
     setValidPassword(true);
 
     const endpoint = isLogin
-      ? "http://localhost:5000/api/auth/login"
-      : "http://localhost:5000/api/auth/register";
+      ? API_ENDPOINTS.auth.login
+      : API_ENDPOINTS.auth.register;
 
     try {
       const response = await fetch(endpoint, {
@@ -62,7 +69,7 @@ function Auth({ onLoginSuccess }) {
   };
 
   React.useEffect(() => {
-    if (!isLogin) {
+    if (!isLogin && password) {
       const err = validatePassword();
       setMessage(err);
       setValidPassword(!err);

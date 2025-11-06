@@ -4,8 +4,6 @@
 # Ignore environment variable files
 **/.env
 
-# Ignore database files
-Backend/db.js
 
 # Ignore build files
 Frontend/build/
@@ -14,3 +12,13 @@ Frontend/dist/
 # System files
 .DS_Store
 Thumbs.db
+
+#Logs
+logs/
+*.log
+
+#private
+/private/
+
+#Prettier
+.prettierrc

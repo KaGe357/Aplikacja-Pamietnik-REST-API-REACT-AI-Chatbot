@@ -9,6 +9,9 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background: #eee;
   padding: 0 16px;
   background-image: url("https://transparenttextures.com/patterns/black-linen.png");
@@ -85,7 +88,6 @@ form.create-note button {
   box-shadow: 0 1px 5px rgb(138, 137, 137);
   text-align: center;
 }
-
 
 .auth-form input {
   width: 100%;
@@ -189,7 +191,6 @@ form.create-note button {
   font-size: 1em;
 }
 
-
 .note {
   background: #fff;
   border-radius: 7px;
@@ -227,10 +228,123 @@ form.create-note button {
   position: relative; /* potrzebne dla z-index Fab */
 }
 
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.note-timestamp {
+  font-size: 0.65rem;
+  color: #999;
+  font-family: monospace;
+}
+
+.note-buttons {
+  display: flex;
+  gap: 1px;
+}
+
 .fab-wrapper {
   display: inline-block;
   margin-left: 10px;
 }
 
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  min-height: 400px;
+}
 
+.empty-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
 
+.empty-state h2 {
+  color: #555;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #888;
+  font-size: 1.1rem;
+}
+
+.note {
+  width: 240px;
+  padding: 10px;
+  margin: 16px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .note {
+    width: calc(50% - 32px);
+    margin: 10px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+  }
+
+  form button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .chatbot-popup {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100vh;
+    border-radius: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  #chatbot-toggler {
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .note {
+    width: calc(100% - 20px);
+    margin: 10px;
+  }
+
+  form.create-note {
+    width: calc(100% - 20px);
+    margin: 20px auto;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  gap: 16px;
+}

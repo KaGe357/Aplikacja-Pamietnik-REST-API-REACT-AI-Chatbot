@@ -1,6 +1,7 @@
 {
-  "name": "using-pre-built-react-components",
+  "name": "diary-coached-by-ai",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -8,14 +9,14 @@
     "@mui/icons-material": "^5.14.7",
     "@mui/material": "^5.14.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.6.0"
   },
   "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-}
-,
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/react": "^19.1.16",
@@ -25,6 +26,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "prettier": "^3.6.2",
     "vite": "^7.1.9"
   },
   "browserslist": [
