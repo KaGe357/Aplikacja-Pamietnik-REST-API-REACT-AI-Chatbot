@@ -1,12 +1,14 @@
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ChatbotIcon from "./ChatbotIcon";
+import toast from "react-hot-toast";
 
 function Note(props) {
   function handleDelete() {
     if (window.confirm("Czy na pewno chcesz usunąć tę notatkę?")) {
       props.onDelete(props.id);
     }
+    toast.success("Usunięto.");
   }
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -34,10 +36,12 @@ function Note(props) {
           <button
             onClick={() => {
               props.setShowChatbot((prev) => !prev);
-              props.sendContentToAI({
-                title: props.title,
-                content: props.content,
-              });
+              if (props.showChatbot == false) {
+                props.sendContentToAI({
+                  title: props.title,
+                  content: props.content,
+                });
+              }
             }}
             id="chatbot-toggler"
             title="Ask your AI Coach"

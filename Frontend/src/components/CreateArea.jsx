@@ -3,8 +3,9 @@ import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import Zoom from "@mui/material/Zoom";
 import { authStorage } from "../utils/authStorage";
+import toast from "react-hot-toast";
 
-function CreateArea({ onAdd, showChatbot }) {
+function CreateArea({ onAdd, showChatbot, onLogout }) {
   const [note, setNote] = useState({
     title: "",
     content: "",
@@ -52,13 +53,14 @@ function CreateArea({ onAdd, showChatbot }) {
       if (res.status === 401) {
         // Try to read response body
         const err = await res.json().catch(() => ({}));
-        if (err.msg && err.msg.toLowerCase().includes("wygas")) {
-          // Session expired -> remove token and redirect to login
-          authStorage.clear?.() || localStorage.removeItem("token");
-          // Show message to user, e.g. window.alert or better toast
-          toast.error("Twoja sesja wygasła. Zaloguj się ponownie.");
-          // Redirect: navigate('/login');
-          redirectTo("/login");
+        if (err.msg && err.msg.toLowerCase().includes("wygasł")) {
+          // Session expired -> remove token and show login
+          toast.error("Twoja sesja wygasła. Zaloguj się ponownie.", {
+            duration: 4000,
+          });
+          setTimeout(() => {
+            onLogout();
+          }, 5000);
           return;
         }
         // Other 401 reason
@@ -69,16 +71,19 @@ function CreateArea({ onAdd, showChatbot }) {
       if (!res.ok) {
         const errBody = await res.json().catch(() => null);
         console.error("Błąd zapisu notatki:", res.status, errBody);
+        toast.error("Błąd zapisu notatki");
         return;
       }
 
       const savedNote = await res.json();
       onAdd(savedNote);
+      toast.success("Zapisano.");
 
       // Clear form
       setNote({ title: "", content: "" });
     } catch (error) {
       console.error("Błąd sieci przy zapisie notatki:", error);
+      toast.error("Błąd zapisu notatki");
     }
   }
 

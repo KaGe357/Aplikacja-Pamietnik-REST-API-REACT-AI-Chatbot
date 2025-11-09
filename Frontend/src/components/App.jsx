@@ -249,7 +249,7 @@ Content: ${noteData.content}`;
   return (
     <div className="app-container">
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 3000,
           style: {
@@ -276,7 +276,11 @@ Content: ${noteData.content}`;
       <button className="logout-button" onClick={onLogout}>
         Wyloguj się
       </button>
-      <CreateArea onAdd={handleAddNote} showChatbot={showChatbot} />
+      <CreateArea
+        onAdd={handleAddNote}
+        showChatbot={showChatbot}
+        onLogout={onLogout}
+      />
       {notes.length === 0 ? (
         <EmptyState />
       ) : (
@@ -288,6 +292,7 @@ Content: ${noteData.content}`;
             content={noteItem.content}
             onDelete={handleDeleteNote}
             setShowChatbot={setShowChatbot}
+            showChatbot={showChatbot}
             sendContentToAI={sendContentToAI}
             created_at={noteItem.created_at}
           />

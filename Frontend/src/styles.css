@@ -322,6 +322,10 @@ form.create-note button {
     width: 56px;
     height: 56px;
   }
+
+  .note-timestamp {
+    font-size: 0.75rem;
+  }
 }
 
 /* Mobile */
@@ -335,6 +339,15 @@ form.create-note button {
     width: calc(100% - 20px);
     margin: 20px auto;
     padding: 15px;
+  }
+
+  .note-timestamp {
+    font-size: 0.85rem;
+  }
+
+  #chatbot-container {
+    height: 100%;
+    width: 100%;
   }
 }
 
